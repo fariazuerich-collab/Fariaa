@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>💗 for you 💗</title>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg,#ffd1dc,#ffe6f0,#fff);
+  overflow-x: hidden;
+  text-align: center;
+}
+
+/* screens */
+.screen { display:none; padding:40px; }
+.active { display:block; }
+
+/* buttons */
+.btn {
+  padding:15px 30px;
+  margin:10px;
+  font-size:18px;
+  border:none;
+  border-radius:20px;
+  cursor:pointer;
+}
+
+#yesBtn { background:#ff4d88; color:white; }
+#noBtn { background:#ccc; }
+
+/* hearts */
+.heart {
+  position:absolute;
+  width:20px;
+  height:20px;
+  background:red;
+  transform:rotate(45deg);
+  animation: float 4s infinite;
+}
+.heart::before, .heart::after {
+  content:"";
+  position:absolute;
+  width:20px;
+  height:20px;
+  background:red;
+  border-radius:50%;
+}
+.heart::before { left:-10px; }
+.heart::after { top:-10px; }
+
+@keyframes float {
+  0% { transform: translateY(0) rotate(45deg); opacity:1;}
+  100% { transform: translateY(-600px) rotate(45deg); opacity:0;}
+}
+
+/* snowfall */
+#fx {
+  position:fixed;
+  top:0; left:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+}
+
+.snow, .sparkle {
+  position:absolute;
+  animation: fall linear infinite;
+}
+
+.snow {
+  width:6px; height:6px;
+  background:white;
+  border-radius:50%;
+}
+
+.sparkle {
+  width:4px; height:4px;
+  background:pink;
+  box-shadow:0 0 10px pink;
+}
+
+@keyframes fall {
+  0% { transform:translateY(-10vh); opacity:1; }
+  100% { transform:translateY(110vh); opacity:0; }
+}
+
+/* bears */
+.bears {
+  display:flex;
+  justify-content:center;
+  gap:40px;
+  font-size:80px;
+}
+
+.bear1 { animation: hug 2s infinite alternate; }
+.bear2 { animation: hug2 2s infinite alternate; }
+
+@keyframes hug {
+  0% { transform:translateX(-10px); }
+  100% { transform:translateX(10px); }
+}
+
+@keyframes hug2 {
+  0% { transform:translateX(10px); }
+  100% { transform:translateX(-10px); }
+}
+
+/* heart link */
+.heart-link {
+  display:inline-block;
+  width:120px;
+  height:120px;
+  background:#ff4d88;
+  clip-path: path("M60 110 L10 50 A30 30 0 1 1 60 30 A30 30 0 1 1 110 50 Z");
+  color:white;
+  line-height:120px;
+  text-decoration:none;
+  font-weight:bold;
+  margin-top:30px;
+}
+
+/* typing */
+#typing {
+  max-width:600px;
+  margin:auto;
+  color:#444;
+  white-space:pre-line;
+}
+</style>
+</head>
+
+<body>
+
+<!-- MUSIC -->
+<audio id="music" autoplay loop>
+  <source src="your-song.mp3" type="audio/mp3">
+</audio>
+
+<!-- FX -->
+<div id="fx"></div>
+
+<!-- SCREEN 1 -->
+<div id="screen1" class="screen active">
+  <h1>Do you love me? 💗</h1>
+  <button class="btn" id="yesBtn">Yes</button>
+  <button class="btn" id="noBtn">No</button>
+</div>
+
+<div id="screen2" class="screen"><h1>Wait... are you sure? 🥺</h1><button class="btn" onclick="next()">Yes</button></div>
+<div id="screen3" class="screen"><h1>No... that's not right 😤</h1><button class="btn" onclick="next()">Try again</button></div>
+<div id="screen4" class="screen"><h1>Be serious 😌</h1><button class="btn" onclick="next()">Yes</button></div>
+<div id="screen5" class="screen"><h1>Okay now you're playing 😑</h1><button class="btn" onclick="next()">Yes</button></div>
+<div id="screen6" class="screen"><h1>Last chance 💗</h1><button class="btn" style="transform:scale(2)" onclick="next()">YES</button></div>
+
+<!-- FINAL -->
+<div id="final" class="screen">
+  <div class="bears">
+    <div class="bear1">🐻</div>
+    <div class="bear2">🐻‍❄️</div>
+  </div>
+
+  <h2>I knew you would say that 💋</h2>
+
+  <div id="typing"></div>
+
+  <h3>Code: 2801 💗</h3>
+
+  <a class="heart-link" href="#qrPage" onclick="qr()">OPEN</a>
+</div>
+
+<!-- QR -->
+<div id="qrPage" class="screen">
+  <h1>Scan 💗</h1>
+  <canvas id="qr"></canvas>
+</div>
+
+<script>
+
+let step = 0;
+
+function show(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+document.getElementById("yesBtn").onclick = () => {
+  step = 2;
+  show("screen2");
+};
+
+function next(){
+  step++;
+  show("screen" + step);
+  if(step === 6) setTimeout(()=>show("final"), 500);
+}
+
+document.getElementById("noBtn").onclick = () => alert("Wrong answer 😌");
+
+// hearts
+setInterval(()=>{
+  const h = document.createElement("div");
+  h.className="heart";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),4000);
+},300);
+
+// snowfall
+setInterval(()=>{
+  const el=document.createElement("div");
+  el.className=Math.random()>0.5?"snow":"sparkle";
+  el.style.left=Math.random()*100+"vw";
+  el.style.animationDuration=(3+Math.random()*5)+"s";
+  document.getElementById("fx").appendChild(el);
+  setTimeout(()=>el.remove(),8000);
+},150);
+
+// typing
+const text = `Heyy babyyy, i miss u so much... my heart belongs to you always 💗`;
+
+let i=0;
+function type(){
+  if(i<text.length){
+    document.getElementById("typing").innerHTML += text[i];
+    i++;
+    setTimeout(type,30);
+  }
+}
+
+// QR
+function qr(){
+  show("qrPage");
+  setTimeout(()=>{
+    QRCode.toCanvas(document.getElementById("qr"),
+    window.location.href);
+  },300);
+}
+
+// autoplay music fix
+window.addEventListener("click",()=>{
+  document.getElementById("music").play();
+});
+
+// start typing when final loads
+setTimeout(type, 3000);
+
+</script>
+</body>
+</html>
