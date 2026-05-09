@@ -1,0 +1,85 @@
+<div id="fx"></div>
+#fx {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.snow, .sparkle {
+  position: absolute;
+  animation: fall linear infinite;
+}
+
+.snow {
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.7;
+}
+
+.sparkle {
+  width: 4px;
+  height: 4px;
+  background: pink;
+  border-radius: 50%;
+  box-shadow: 0 0 10px pink;
+}
+
+@keyframes fall {
+  0% { transform: translateY(-10vh); opacity: 1; }
+  100% { transform: translateY(110vh); opacity: // snowfall + sparkles generator
+setInterval(() => {
+  const el = document.createElement("div");
+  el.className = Math.random() > 0.5 ? "snow" : "sparkle";
+  el.style.left = Math.random() * 100 + "vw";
+  el.style.animationDuration = (3 + Math.random() * 5) + "s";
+  document.getElementById("fx").appendChild(el);
+  setTimeout(() => el.remove(), 8000);
+}, <div class="bears">
+  <div class="bear1">🐻</div>
+  <div class="bear2">🐻‍❄️</div>
+</div>
+.bears {
+  display:flex;
+  justify-content:center;
+  gap:40px;
+  font-size:80px;
+}
+
+.bear1 { animation: hug 2s infinite alternate; }
+.bear2 { animation: hug2 2s infinite alternate; }
+
+@keyframes hug {
+  0% { transform: translateX(-10px); }
+  100% { transform: translateX(10px); }
+}
+
+@keyframes hug2 {
+  0% { transform: translateX(10px); }
+  100% { transform: translateX(-10px); }
+}
+setTimeout(() => {
+  document.querySelector(".bear1").innerText = "🐻💋";
+  document.querySelector(".bear2").innerText = "🐻";
+}, 3000);
+
+<div id="secret" class="screen">
+  <h1>Enter Code 💗</h1>
+  <input id="code" placeholder="****"/>
+  <button onclick="checkCode()">Unlock</button>
+  <p id="msg"></p>
+</div>
+function checkCode(){
+  const val = document.getElementById("code").value;
+
+  if(val === "2801"){
+    show("final");
+  } else {
+    document.getElementById("msg").innerText = "Try again 🥺";
+  }
+}
